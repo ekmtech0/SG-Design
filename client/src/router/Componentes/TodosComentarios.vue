@@ -132,9 +132,12 @@
       </section> -->
     </main>
   </div>
+
+<google-component-test/>
 </template>
 
 <script setup>
+import GoogleComponentTest from './GoogleComponentTest.vue';
 import { ref, onMounted } from 'vue';
 import api from '@/Request';
 

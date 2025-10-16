@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://server.dev.localhost:5133',
+  baseURL: 'https://sg-design.onrender.com',
 });
 
 export default api;

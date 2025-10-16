@@ -7,7 +7,7 @@
 
 <script setup>
 import { onMounted } from "vue";
-import axios from "axios";
+import api from "@/Request";
 
 const CLIENT_ID = "353535077307-nqv0s4rge8nh5d3a9eklcoacdijk61hf.apps.googleusercontent.com";
 
@@ -17,7 +17,7 @@ function handleCredentialResponse(response) {
   console.log("ID Token:", idToken);
   // Aqui você envia para o backend:
   // fetch("/auth/google", { method: "POST", body: JSON.stringify({ id_token: idToken }) })
-  axios.post("http://server.dev.localhost:5133/google?IdToken=" + idToken)
+  api.post("/google?IdToken=" + idToken)
     .then(res => console.log("Login OK:", res.data))
     .catch(err => console.error("Erro no login:", err));
 
