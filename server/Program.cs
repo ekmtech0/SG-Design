@@ -2,6 +2,7 @@ using AuthLibrary.Extensions;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Endpoints;
+using server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 );
 
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<ICookieGenerate, CookieGenerateService>();
 
 var app = builder.Build();
 
@@ -57,5 +59,7 @@ app.MapGet("/", () => "Hello World!");
 app.MapUserAuth();
 
 app.MapComments();
+
+app.MapTokensEndpoints();
 
 app.Run();

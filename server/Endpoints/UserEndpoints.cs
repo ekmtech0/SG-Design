@@ -4,6 +4,7 @@ using Google.Apis.Auth;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
+using server.Services;
 
 namespace server.Endpoints
 {
@@ -11,7 +12,10 @@ namespace server.Endpoints
     {
         public static IEndpointRouteBuilder MapUserAuth(this IEndpointRouteBuilder app)
         {
-            app.MapPost("/google", async (DataContext context, ITokenService tokenService, string IdToken) =>
+            app.MapPost("/google", async (DataContext context, 
+                HttpContext httpContext,
+                ITokenService tokenService, 
+                ICookieGenerate cookieGenerate , string IdToken) =>
             {
 
                 try
@@ -42,13 +46,28 @@ namespace server.Endpoints
                         context.Users.Update(user);
                     }
 
-                    await context.SaveChangesAsync();
 
                     List<string> roles = ["user"];
 
                     var token = tokenService.GenerateToken(user, roles);
 
+                    var refreshToken = tokenService.GenerateRefreshToken();
 
+                    var login = new UserLogin
+                    {
+                        User = user,
+                        UserId = user.Id,
+                        Token = refreshToken,
+                        CreatedAt = DateTime.UtcNow,
+                        ExpiresAt = DateTime.UtcNow.AddDays(7),
+                    };
+                    Console.WriteLine("RefreshToken :" + refreshToken);
+                    await context.UserLogins.AddAsync(login);
+
+                    var cookie = cookieGenerate.GenerateCookie();
+                    httpContext.Response.Cookies.Append("refreshToken", refreshToken, cookie);
+
+                    await context.SaveChangesAsync();
                     return Results.Ok(token);
                 }
                 catch (GoogleApiException ex)

@@ -10,5 +10,7 @@ namespace server.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CommentLike> CommentLikes { get; set; }
 
+        public DbSet<UserLogin> UserLogins { get; set; }
+
     }
 }

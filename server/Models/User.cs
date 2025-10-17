@@ -22,6 +22,8 @@ namespace server.Models
         // Relações
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<CommentLike> CommentLikes { get; set; } = new List<CommentLike>();
+
+        public ICollection<UserLogin> UserLogins { get; set; } = new List<UserLogin>();
     }
 
 }
