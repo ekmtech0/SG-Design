@@ -1,0 +1,1 @@
+import{N as r}from"./NavBar-D4LEXa7a.js";import{c as a,b as t,a as o,F as s,o as n}from"./index-CKKHjbyT.js";import"./Logo web-ECiLurst.js";const _={__name:"FlyersEventos",setup(l){return(m,e)=>(n(),a(s,null,[t(r),e[0]||(e[0]=o("div",null,"Flyers",-1))],64))}};export{_ as default};

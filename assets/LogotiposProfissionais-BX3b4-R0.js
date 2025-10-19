@@ -1,1 +1,0 @@
-import{N as a}from"./NavBar-BZhUGLEJ.js";import{c as e,b as s,a as r,F as t,o as n}from"./index-CvlwwXR8.js";const c={__name:"LogotiposProfissionais",setup(i){return(p,o)=>(n(),e(t,null,[s(a),o[0]||(o[0]=r("div",null,"Logotiopos",-1))],64))}};export{c as default};

@@ -1,0 +1,1 @@
+import{N as a}from"./NavBar-D4LEXa7a.js";import{c as r,b as t,a as o,F as s,o as n}from"./index-CKKHjbyT.js";import"./Logo web-ECiLurst.js";const u={__name:"CriacaoSites",setup(i){return(m,e)=>(n(),r(s,null,[t(a),e[0]||(e[0]=o("div",null,"Criação de Sites",-1))],64))}};export{u as default};

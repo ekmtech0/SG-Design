@@ -1,0 +1,1 @@
+import{N as e}from"./NavBar-D4LEXa7a.js";import{c as t,b as r,a as o,F as s,o as n}from"./index-CKKHjbyT.js";import"./Logo web-ECiLurst.js";const d={__name:"CartaodeVisita",setup(i){return(m,a)=>(n(),t(s,null,[r(e),a[0]||(a[0]=o("div",null,"Cartao de visita",-1))],64))}};export{d as default};

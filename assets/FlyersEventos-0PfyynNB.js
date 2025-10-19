@@ -1,1 +1,0 @@
-import{N as a}from"./NavBar-BZhUGLEJ.js";import{c as r,b as s,a as t,F as o,o as n}from"./index-CvlwwXR8.js";const u={__name:"FlyersEventos",setup(l){return(m,e)=>(n(),r(o,null,[s(a),e[0]||(e[0]=t("div",null,"Flyers",-1))],64))}};export{u as default};
