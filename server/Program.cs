@@ -17,11 +17,15 @@ builder.Services.AddAuthSuporte("jebjkmdp90jijwdkjqhqkdvy5632849riiojbdbt737ydh9
 // Add CORS policy to allow requests from any origin
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+                "https://ekmtech0.github.io",   // produção
+                "http://localhost:5173"         // desenvolvimento local (Vue.js dev server)
+            )
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
@@ -43,12 +47,7 @@ if(app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-
-app.UseCors();
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 
@@ -61,5 +60,7 @@ app.MapUserAuth();
 app.MapComments();
 
 app.MapTokensEndpoints();
+
+app.MapUserEndpoints();
 
 app.Run();

@@ -10,7 +10,7 @@ function irPara(path) {
 </script>
 <template>
   <!-- <GoogleAuth /> -->
-  <GoogleComponentTest v-show="false"/>
+  <!-- <GoogleComponentTest v-show="false"/> -->
   
   <!-- Footer -->
   <section

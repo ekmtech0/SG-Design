@@ -4,12 +4,20 @@ const router = useRouter() // Instancia do roteador
 import { ref } from "vue";
 import { RouterLink } from 'vue-router';
 import LoginPage from './LoginPage.vue';
+import { onMounted } from 'vue';
+import { useAuthStore } from '@/Stores/Auth';
 
+const authStore = useAuthStore();
 const showLoginModal = ref(false);
 const menuAberto = ref(false);
 const fecharMenu = () => {
   menuAberto.value = false;
 };
+
+onMounted(async () => {
+  await authStore.checkAuth();
+  // console.log('User is logged in:', authStore.isLogge);
+});
 
 function openLogin() {
   showLoginModal.value = true;
@@ -115,7 +123,11 @@ function closeEmailVerification() {
 
       <!-- Entrar Login -->
   <div class="">
-  <button class="hover:text-amarelo lg:bg-amarelo lg:rounded-full  font-bold lg:text-black lg:px-4 lg:py-2" @click="openLogin()">Entrar</button>
+  <button class="hover:text-amarelo lg:bg-amarelo lg:rounded-full  font-bold lg:text-black lg:px-4 lg:py-2" @click="openLogin()"
+  v-if="!authStore.isLogged"
+  >Entrar
+</button>
+<img :src="authStore.userData?.photoUrl" alt="Foto de Perfil" class="h-8 w-8 rounded-full ml-2" v-if="authStore.isLogged"/>
 
 </div>
 

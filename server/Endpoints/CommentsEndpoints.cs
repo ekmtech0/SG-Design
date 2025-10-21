@@ -76,6 +76,7 @@ namespace server.Endpoints
                     .Include(c => c.CommentLikes)
                     .Select(c => new CommentDTO
                     {
+                        Id = c.Id,
                         Content = c.Content,
                         LikesCount = c.CommentLikes.Count,
                         UserName = c.User.Name,

@@ -56,13 +56,13 @@
 
     <!-- Login Social -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-4 w-full">
-      <button
+      <!-- <button
         class="flex items-center justify-center gap-2 border border-gray-700 px-4 py-2 rounded-xl w-full sm:w-auto hover:bg-[#2a2a2a] transition-all"
       >
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5" />
         <span class="text-sm font-medium">Google</span>
-      </button>
-
+      </button> -->
+      <google-component-test />
       <button
         class="flex items-center justify-center gap-2 border border-gray-700 px-4 py-2 rounded-xl w-full sm:w-auto hover:bg-[#2a2a2a] transition-all"
       >
@@ -96,6 +96,7 @@
 import { useRouter } from 'vue-router'; 
 import CadastroSG from './CadastroSG.vue';
 import { ref } from 'vue';
+import GoogleComponentTest from './GoogleComponentTest.vue';
 const router = useRouter();
 const emit = defineEmits(['openRegister', 'closeLogin']);
 
@@ -110,6 +111,7 @@ function abrirCadastro() {
 function fecharLogin() {
   emit('closeLogin'); // avisa para fechar modal
 }
+
 
 const showLoginModal = ref(false);
 

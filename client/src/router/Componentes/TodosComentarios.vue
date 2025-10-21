@@ -35,7 +35,7 @@
               <div class="flex-1 min-w-0">
                 <h3 class="font-bold font-montserrat text-white truncate">{{ testemunho.userName }}</h3>
                 <p class="text-sm text-amarelo font-light font-montserrat">Programmer</p>
-                <p class="text-xs text-gray-400 mt-1">{{ testemunho.timeAgo }}</p>
+                <p class="text-xs text-gray-400 mt-1">{{ timeAgoFromString(testemunho.timeAgo) }}</p>
               </div>
             </div>
             <p class="text-gray-300 leading-relaxed">"{{  testemunho.content }}"</p>
@@ -72,7 +72,8 @@
       id="role-select"
       aria-label="Profissão"
       class="p-2 lg:p-4 rounded-xl bg-preto2 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-amarelo"
-    >
+      v-if="authStore.userData?.profission == null"
+      >
       <option value="" disabled>Profissão</option>
       <option>Programador</option>
       <option>Designer Gráfico</option>
@@ -86,9 +87,10 @@
       <option>Professor</option>
       <option>Outro</option>
     </select>
-    <div>
-      <div class="h-12 w-12 bg-gray-600 rounded-3xl text-sm text-center flex items-center justify-center">Foto</div>
-    </div>
+      <div>
+        <img class="h-12 w-12 bg-gray-600 rounded-3xl text-sm text-center flex items-center justify-center" v-if="authStore.isLogged" :src="authStore.userData?.photoUrl"/>
+        <div class="h-12 w-12 bg-gray-600 rounded-3xl text-sm text-center flex items-center justify-center" v-else>foto</div>
+      </div>
   </div>
 
   <!-- Comentário + botão que abre o modal de login -->
@@ -96,15 +98,33 @@
     <div class="w-full rounded-xl border-gray-700 p-6">
       <div class="max-w-6xl mx-auto flex items-center space-x-4 ">
         <input
+        type="text"
+        placeholder="Deixe seu comentário..."
+        class="flex-1 p-3 lg:p-4 rounded-2xl bg-preto2 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-amarelo "
+        readonly
+        @focus="openLogin"   
+        v-if="!authStore.isLogged" 
+        />
+        <!-- Se estiver logado chama o modal de login, se não deixa escrever o comentário -->
+         <input
           type="text"
           placeholder="Deixe seu comentário..."
           class="flex-1 p-3 lg:p-4 rounded-2xl bg-preto2 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-amarelo "
-          readonly
-          @focus="openLogin"    
+          v-model="comentario"
+          v-else   
         />
 
         <!-- botão que abre o modal de login -->
-        <button @click="openLogin" aria-label="Comentar" class="h-10 w-10 flex items-center justify-center rounded-full text-amarelo hover:text-white">
+        <button v-if="!authStore.isLogged" @click="openLogin" aria-label="Comentar" class="h-10 w-10 flex items-center justify-center rounded-full text-amarelo hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16" class="h-8 text-amarelo" fill="currentColor" >
+            <g fill="" fill-rule="evenodd" >
+              <path d="M15.854.146a.5.5 0 0 1 .11.54l-2.8 7a.5.5 0 1 1-.928-.372l1.895-4.738l-7.494 7.494l1.376 2.162a.5.5 0 1 1-.844.537l-1.531-2.407L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM5.93 9.363l7.494-7.494L1.591 6.602l4.339 2.76Z"/>
+              <path d="M12.5 16a3.5 3.5 0 1 0 0-7a3.5 3.5 0 0 0 0 7m.354-5.354a.5.5 0 0 0-.722.016l-1.149 1.25a.5.5 0 1 0 .737.676l.28-.305V14a.5.5 0 0 0 1 0v-1.793l.396.397a.5.5 0 0 0 .708-.708l-1.25-1.25Z"/>
+            </g>
+          </svg>
+        </button>
+        <!-- se estiver logado chama a função para enviar o comentário -->
+         <button v-else @click="SendComment" aria-label="Comentar" class="h-10 w-10 flex items-center justify-center rounded-full text-amarelo hover:text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 16 16" class="h-8 text-amarelo" fill="currentColor" >
             <g fill="" fill-rule="evenodd" >
               <path d="M15.854.146a.5.5 0 0 1 .11.54l-2.8 7a.5.5 0 1 1-.928-.372l1.895-4.738l-7.494 7.494l1.376 2.162a.5.5 0 1 1-.844.537l-1.531-2.407L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM5.93 9.363l7.494-7.494L1.591 6.602l4.339 2.76Z"/>
@@ -116,7 +136,7 @@
     </div>
   </section>
 
-  <google-component-test/>
+  <!-- <google-component-test/> -->
 
   <!-- Modal de Login (invisível por padrão, aparece sobrepondo tudo) -->
   <div
@@ -194,12 +214,17 @@ import api from '@/Request';
 import LoginPage from './LoginPage.vue';
 import CadastroSG from './CadastroSG.vue';
 import VerficacaoEmail from './VerficacaoEmail.vue';
+import { useAuthStore } from '@/Stores/Auth';
+import { timeAgoFromString } from '@/services/timeAgoFromString';
+
+const comentario = ref('');
 const showRegisterModal = ref(false);
 const testemunhos = ref([]);
 const showLoginModal = ref(false);
-
+const authStore = useAuthStore();
 
 onMounted(() => {
+  authStore.checkAuth();
   fetchTestemunhos();
   // opcional: fechar modal com Esc
   window.addEventListener('keydown', onKeydown);
@@ -219,6 +244,23 @@ async function fetchTestemunhos() {
   }
 }
 
+//Função para enviar comentário
+async function SendComment() {
+  try {
+    await api.post(`/comments/create?content=${comentario.value}`,{}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    });
+    console.log("Comentário enviado!");
+    comentario.value = '';
+    confirm("Comentário enviado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao enviar comentário:", error);
+  }
+}
+
+
 
 function openLogin() {
   showLoginModal.value = true;
@@ -231,6 +273,10 @@ function closeLogin() {
 // fechar Cadastro
 function closeRegister() {
   showRegisterModal.value = false;
+}
+//fazer o refresh da página após o login com google
+function fechar_refresh() {
+  window.location.reload();
 }
 
 // abrir Cadastro quando vier evento do Login

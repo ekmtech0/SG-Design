@@ -12,21 +12,24 @@ import api from "@/Request";
 const CLIENT_ID = "353535077307-nqv0s4rge8nh5d3a9eklcoacdijk61hf.apps.googleusercontent.com";
 
 // Callback que recebe o id_token
-function handleCredentialResponse(response) {
+async function handleCredentialResponse(response) {
   const idToken = response?.credential;
   console.log("ID Token:", idToken);
   // Aqui você envia para o backend:
   // fetch("/auth/google", { method: "POST", body: JSON.stringify({ id_token: idToken }) })
-  api.post("/google?IdToken=" + idToken)
-    .then(res => console.log("Login OK:", res.data))
-    .catch(err => console.error("Erro no login:", err));
 
-    // Exemplo de uso:
-    const payload = decodeJwt(idToken);
-    console.log("Nome:", payload.name);
-    console.log("Email:", payload.email);
-  confirm("Benvindo " + payload.name + "! " + payload.email + "! ");
+    try{
+        var res = await api.post("/google?IdToken=" + idToken);
+        console.log("Resposta do backend:", res.data.accessToken);
+        localStorage.setItem("accessToken", res.data.accessToken);
+    }
+    catch(err){
+      console.error("Erro no login:", err);
+    }
 
+    // localStorage.setItem("token", res.data.accessToken);
+  
+    window.location.reload();
 
 }
 

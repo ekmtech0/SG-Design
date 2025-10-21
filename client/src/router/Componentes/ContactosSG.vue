@@ -58,10 +58,10 @@
         </form>
       </div>
 
-      <!-- Imagem + Caixa -->
+      <!-- Imagem + Caixa
       <div class="relative">
         <div class="rounded-xl  overflow-hidden bg-preto2 text-white ">sdnm </div>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
