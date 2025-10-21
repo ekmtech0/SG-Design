@@ -63,16 +63,21 @@ function irPara(path) {
         </div>
       </div>
       <!-- Coluna Direita -->
-      <div class="flex flex-col items-center md:items-end md:w-1/2 mt-10 md:mt-0">
-        <h1 class="text-amarelo font-montserrat font-medium text-base md:text-lg lg:text-xl">Links rápidos</h1>
-        <div class="flex flex-col md:items-end md:flex-col space-y-2 mt-4">
-          <a href="#" class="hover:text-amarelo text-sm md:text-base lg:text-lg">home</a>
-          <a href="#servicos" class="hover:text-amarelo text-sm md:text-base lg:text-lg">Serviços</a>
-          <a href="#sobre" class="hover:text-amarelo text-sm md:text-base lg:text-lg">Sobre</a>
-          <a @click="irPara('/projectos-servicos')" class="hover:text-amarelo cursor-pointer text-sm md:text-base lg:text-lg">Projetos</a>
-          <a href="#contactos" class="hover:text-amarelo text-sm md:text-base lg:text-lg">Contactos</a>
-        </div>
-      </div>
+    <!-- Coluna Direita -->
+<div class="flex flex-col items-center md:w-1/2 mt-10 md:mt-0 ">
+  <h1 class="text-amarelo font-montserrat font-medium text-base md:text-lg lg:text-xl">Links rápidos</h1>
+  <div class="flex flex-col md:items-end md:flex-col space-y-2 mt-4">
+    <a href="#" class="hover:text-amarelo text-sm md:text-base lg:text-lg text-center">Home</a>
+    <a href="#servicos" class="hover:text-amarelo text-sm md:text-base lg:text-lg text-center">Serviços</a>
+    <a href="#sobre" class="hover:text-amarelo text-sm md:text-base lg:text-lg text-center">Sobre</a>
+    <a @click="irPara('/projectos-servicos')" class="hover:text-amarelo cursor-pointer text-sm md:text-base lg:text-lg text-center">Projetos</a>
+    <a href="#contactos" class="hover:text-amarelo text-sm md:text-base lg:text-lg text-center">Contactos</a>
+    <!-- Novos links adicionados -->
+    <a @click="irPara('/TermosUso')" class="hover:text-amarelo cursor-pointer text-sm md:text-base lg:text-lg text-center">Termos de Uso</a>
+    <a @click="irPara('/PoliticaPrivacidade')" class="hover:text-amarelo cursor-pointer text-sm md:text-base lg:text-lg text-center">Política de Privacidade</a>
+  </div>
+</div>
+
     </div>
     <!-- 🔹 Linha inferior -->
     <div class="border-t border-gray-700 mt-10 pt-4 text-center text-xs md:text-sm lg:text-base opacity-70">

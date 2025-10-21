@@ -1,10 +1,13 @@
 <script setup>
 import Navbar from './navbar.vue';
+import FooterSG from './FooterSG.vue';  
 
 </script>
 
 
 <template>
 <Navbar/>
-    <div>Cartao de visita</div>
+
+    <div class="pt-20">Cartao de visita</div>
+     <FooterSG/>
 </template>

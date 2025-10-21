@@ -1,5 +1,5 @@
 <template>
-     <section class="pt-20 px-4 md:px-8 lg:px-16 border-t-preto2 border-b-preto2 flex justify-center items-center min-h-screen bg-preto">
+     <section class="pt-20 px-4 md:px-8 lg:px-16 border-t-preto2 border-b-preto2 flex justify-center items-center min-h-screen ">
   <div
     class="bg-preto2 rounded-2xl p-6 md:p-10 w-full max-w-sm sm:max-w-md lg:max-w-lg flex flex-col items-center text-gray-400 shadow-lg"
   >
@@ -74,17 +74,51 @@
     <!-- Termos -->
     <p class="text-center text-xs text-gray-500 mt-6 px-4 leading-relaxed">
       Ao entrar, concordas com os
-      <a href="#" class="text-amarelo hover:underline">Termos de Uso</a>
+      <a  class="text-amarelo hover:underline cursor-pointer" @click="irPara('/TermosUso')">Termos de Uso</a>
       e a
-      <a href="#" class="text-amarelo hover:underline">Política de Privacidade</a>.
+      <a  class="text-amarelo hover:underline cursor-pointer" @click="irPara('/PoliticaPrivacidade')" >Política de Privacidade</a>.
     </p>
 
     <!-- Cadastro -->
     <p class="text-center text-sm text-gray-400 mt-4">
       Ainda não tens conta?
-      <a href="/register" class="text-yellow-400 hover:underline font-medium">Criar conta</a>
+      <a  class="text-yellow-400 hover:underline font-medium" @click="abrirCadastro" >Criar conta</a>
     </p>
+
+    
+
   </div>
 </section>
 
 </template>
+
+<script setup>
+import { useRouter } from 'vue-router'; 
+import CadastroSG from './CadastroSG.vue';
+import { ref } from 'vue';
+const router = useRouter();
+const emit = defineEmits(['openRegister', 'closeLogin']);
+
+function irPara(path) {
+  router.push(path)
+}
+
+function abrirCadastro() {
+  emit('openRegister'); // avisa o componente pai para abrir o modal de cadastro
+}
+
+function fecharLogin() {
+  emit('closeLogin'); // avisa para fechar modal
+}
+
+const showLoginModal = ref(false);
+
+function openLogin() {
+  showLoginModal.value = true;
+}
+
+function closeLogin() {
+  showLoginModal.value = false;
+}
+
+</script>

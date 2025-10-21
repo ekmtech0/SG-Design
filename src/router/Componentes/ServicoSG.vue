@@ -2,7 +2,7 @@
   <!-- Nossos Serviços -->
   <section id="servicos">
     <h1
-      class="text-2xl md:text-3xl font-bold mb-4 font-montserrat tracking-wide text-center p-4 text-amarelo"
+      class="text-2xl md:text-3xl font-bold mb-4 font-montserrat tracking-wide text-center p-4 text-amarelo "
     >
       Nossos Serviços
     </h1>
@@ -11,10 +11,10 @@
     </h2>
 
     <!-- Container de cards -->
-    <div class="relative p-6 md:p-10 xl:px-40">
+    <div class="relative p-6 md:p-10 xl: ">
       <!-- Carrossel -->
       <div
-        class="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 scroll-smooth snap-x snap-mandatory no-scrollbar"
+        class="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 scroll-smooth snap-x snap-mandatory no-scrollbar "
         ref="carousel"
         @scroll="handleScroll"
       >
@@ -95,8 +95,8 @@
           v-for="(s, i) in servicos"
           :key="i"
           @click="scrollToCard(i)"
-          class="w-3 h-3 rounded-full transition-all duration-300"
-          :class="activeIndex === i ? 'bg-amarelo w-5' : 'bg-gray-500'"
+          class="w-1.5 h-1.5 rounded-full transition-all duration-300"
+          :class="activeIndex === i ? 'bg-amarelo w-1.5' : 'bg-gray-500'"
         ></button>
       </div>
     </div>

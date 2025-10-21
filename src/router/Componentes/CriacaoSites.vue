@@ -1,5 +1,8 @@
 <script setup>
 import Navbar from './navbar.vue';
+import FooterSG from './FooterSG.vue';
+import WhatsApp from './WhatsApp.vue';
+
 
 </script>
 
@@ -7,5 +10,7 @@ import Navbar from './navbar.vue';
 
 <template>
 <Navbar/>
-    <div>Criação de Sites</div>
+<WhatsApp/>
+    <div class="pt-20">Criação de Sites</div>
+     <FooterSG/>
 </template>

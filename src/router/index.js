@@ -133,6 +133,32 @@ const routes = [
     path: '/TodosComentarios',
     name: 'TodosComentarios',
     component: () => import('./Componentes/TodosComentarios.vue'),
+  },
+  {
+    path: '/CadastroSG',
+    name: 'CadastroSG',
+    component: () => import('./Componentes/CadastroSG.vue'),
+  },
+  {
+    path:'/VerficacaoEmail',
+    name:'VerficacaoEmail',
+    component: () => import('./Componentes/VerficacaoEmail.vue'),
+  },
+
+  {
+    path: '/TermosUso',
+    name: 'TermosUso',
+    component: () => import('./Componentes/TermosUso.vue'),
+  },
+  {
+    path: '/PoliticaPrivacidade',
+    name: 'PoliticaPrivacidade',
+    component: () => import('./Componentes/PoliticaPrivacidade.vue'),
+  },
+  {
+    path: '/CookiesCach',
+    name: 'CookiesCach',
+    component: () => import('./Componentes/CookiesCach.vue'),
   }
 ]
 

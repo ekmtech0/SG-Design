@@ -24,12 +24,12 @@
       <section class="mb-12">
         <div class="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
           <article
-            class="bg-preto2 rounded-xl shadow-md p-6 border border-gray-700 hover:shadow-lg transition-shadow"
+            class="bg-preto2 rounded-xl shadow-md p-6 border border-gray-700 hover:shadow-lg transition-shadow "
             v-for="testemunho in testemunhos"
             :key="testemunho.id"
           >
             <div class="flex items-start space-x-4 mb-4">
-              <div class="h-12 w-12 bg-amarelo rounded-full overflow-hidden flex-shrink-0">
+              <div class="h-12 w-12 bg-amarelo rounded-full overflow-hidden flex-shrink-0 ">
                 <img :src="testemunho.userPhotoUrl" class="object-cover w-full h-full" alt="Foto do comentador" />
               </div>
               <div class="flex-1 min-w-0">
@@ -126,7 +126,6 @@
     aria-modal="true"
     role="dialog"
   >
-    <div class="bg-preto2 rounded-xl w-full max-w-3xl p-6 relative">
       <!-- botão de fechar -->
       <button @click="closeLogin" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,9 +134,57 @@
       </button>
 
       <!-- Componente de Login embutido no modal -->
-      <LoginPage />
-    </div>
+      <LoginPage @openRegister="openRegister" @closeLogin="closeLogin "/>
   </div>
+
+
+  <!-- Modal de Cadastro -->
+
+    <div
+    v-if="showRegisterModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 "
+    @click.self="closeRegister"
+    aria-modal="true"
+    role="dialog"
+  >
+      
+      <!-- botão de fechar -->
+      <button @click="closeRegister" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Componente de Login embutido no modal -->
+      <CadastroSG 
+  @closeRegister="closeRegister" 
+  @openLogin="openLoginFromRegister" 
+  @openEmailVerification="openEmailVerification" 
+/>
+
+  </div>
+
+
+<!-- Modal de Verificação de E-maile -->
+  <div
+    v-if="showEmailVerificationModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 "
+    @click.self="closeEmailVerification"
+    aria-modal="true"
+    role="dialog"
+  >
+      
+      <!-- botão de fechar -->
+      <button @click="closeEmailVerification" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Componente de Login embutido no modal -->
+      <VerficacaoEmail  @closeEmailVerification="closeEmailVerification"   @openLogin="openLoginFromVerification"   />
+  </div>
+
 </template>
 
 <script setup>
@@ -145,9 +192,12 @@ import GoogleComponentTest from './GoogleComponentTest.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import api from '@/Request';
 import LoginPage from './LoginPage.vue';
-
+import CadastroSG from './CadastroSG.vue';
+import VerficacaoEmail from './VerficacaoEmail.vue';
+const showRegisterModal = ref(false);
 const testemunhos = ref([]);
 const showLoginModal = ref(false);
+
 
 onMounted(() => {
   fetchTestemunhos();
@@ -169,12 +219,46 @@ async function fetchTestemunhos() {
   }
 }
 
+
 function openLogin() {
   showLoginModal.value = true;
 }
 
 function closeLogin() {
   showLoginModal.value = false;
+}
+
+// fechar Cadastro
+function closeRegister() {
+  showRegisterModal.value = false;
+}
+
+// abrir Cadastro quando vier evento do Login
+function openRegister() {
+  showLoginModal.value = false;
+  showRegisterModal.value = true;
+}
+
+function openLoginFromRegister() {
+  showRegisterModal.value = false;
+  showLoginModal.value = true;
+}
+
+function openLoginFromVerification() {
+  showEmailVerificationModal.value = false
+  showLoginModal.value = true
+}
+
+const showEmailVerificationModal = ref(false)
+
+function openEmailVerification() {
+  showRegisterModal.value = false
+  showLoginModal.value = false
+  showEmailVerificationModal.value = true
+}
+
+function closeEmailVerification() {
+  showEmailVerificationModal.value = false
 }
 
 function onKeydown(e) {

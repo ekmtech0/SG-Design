@@ -1,36 +1,15 @@
 <script setup>
-import Navbar from './navbar.vue';
+import FooterSG from './FooterSG.vue';
+import NavBar from './NavBar.vue';
+import WhatsApp from './WhatsApp.vue';
 
 </script>
 
-
 <template>
-    
-<Navbar/>
-       <!-- Nossos Projectos -->
-    <section class="">
-        <div class="relative w-full h-96">
-            <img src="/web.jpg" alt="" class="opacity-20 w-full h-96 object-cover object-center" />
-
-            <div class="absolute inset-0 flex items-center justify-center flex-col">
-                <button class="text-amarelo text-sm border border-amarelo rounded-3xl px-4 py-2 
-           transition-all duration-300 
-           hover:bg-amarelo hover:text-preto
-           sm:px-5 sm:py-2 md:px-6 md:py-2.5 lg:px-8 lg:py-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 inline-block mr-2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-</svg>
-Voltar aos Projetos</button>
-                <p class="text-2xl md:text-3xl font-bold mb-4 font-montserrat tracking-wide text-center p-6 text-amarelo">
-                   Identidade Visual
-                </p>
-               <p class="text-center lg:text-xl  font-regular p-4 mt-[-50px]">Descubra o portfólio de designs gráficos que transformam ideias em realidade. Modernos, vibrantes e cheios de vida!</p>
-            </div>
-        </div> 
-    </section>
-
-    <!-- Galeria de identidade visual -->
-    <section class="border-t-preto2 border-b-preto2 py-12 px-4 md:px-8 lg:px-16">
-     
+    <section>
+        <WhatsApp/>
+        <NavBar/>
+        <div class="pt-20">Identidade Visual</div>
+        <FooterSG/>
     </section>
 </template>
-<!-- grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 -->

@@ -1,7 +1,7 @@
 
 
 <template>
-      <section class="bg-preto border-t border-b border-t-preto2 border-b-preto2 text-white px-6 py-12">
+      <section class="text-white px-6 py-12">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center" id="contactos">
       <!-- Texto -->
       <div class="">
@@ -60,7 +60,7 @@
 
       <!-- Imagem + Caixa -->
       <div class="relative">
-        <div class="rounded-xl shadow-lg overflow-hidden"> <img src="/Call.png" alt=""></div>
+        <div class="rounded-xl  overflow-hidden bg-preto2 text-white ">sdnm </div>
       </div>
     </div>
   </section>

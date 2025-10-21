@@ -2,7 +2,7 @@
     
   <!-- Passos para criação -->
   <section>
-    <div class="border-b border-t border-t-preto2 border-b-preto2">
+    <div class="">
       <p
         class="text-2xl md:text-3xl font-bold mb-4 font-montserrat font-bold tracking-wide text-center p-6 tracking-wide text-amarelo"
       >

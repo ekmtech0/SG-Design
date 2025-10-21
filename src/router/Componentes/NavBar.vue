@@ -2,16 +2,61 @@
 import { useRouter } from 'vue-router';
 const router = useRouter() // Instancia do roteador
 import { ref } from "vue";
+import { RouterLink } from 'vue-router';
+import LoginPage from './LoginPage.vue';
 
-
+const showLoginModal = ref(false);
 const menuAberto = ref(false);
 const fecharMenu = () => {
   menuAberto.value = false;
 };
 
-function irPara(path) {
-  router.push(path)
+function openLogin() {
+  showLoginModal.value = true;
 }
+
+function closeLogin() {
+  showLoginModal.value = false;
+}
+
+import CadastroSG from './CadastroSG.vue';
+import VerficacaoEmail from './VerficacaoEmail.vue';
+const showRegisterModal = ref(false);
+
+
+// fechar Cadastro
+function closeRegister() {
+  showRegisterModal.value = false;
+}
+
+// abrir Cadastro quando vier evento do Login
+function openRegister() {
+  showLoginModal.value = false;
+  showRegisterModal.value = true;
+}
+
+function openLoginFromRegister() {
+  showRegisterModal.value = false;
+  showLoginModal.value = true;
+}
+
+function openLoginFromVerification() {
+  showEmailVerificationModal.value = false
+  showLoginModal.value = true
+}
+
+const showEmailVerificationModal = ref(false)
+
+function openEmailVerification() {
+  showRegisterModal.value = false
+  showLoginModal.value = false
+  showEmailVerificationModal.value = true
+}
+
+function closeEmailVerification() {
+  showEmailVerificationModal.value = false
+}
+
 </script>
 <style scoped>
 /* Animação do Sidebar */
@@ -41,11 +86,18 @@ function irPara(path) {
     class="fixed top-0 left-0 w-full z-50 bg-preto2 shadow-md "
   >
     <div
-      class="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-16 h-20 lg:h-24"
+      class="max-w-7xl mx-auto flex items-center  px-6 lg:px-16 h-20 lg:h-24 justify-between"
     >
       <!-- LOGO -->
-      <img src="/public/Logo web.png" alt="Logo" class="h-7 w-auto lg:h-10" />
+      <div class="flex items-center  gap-2 lg:gap-3">
+        <img src="/public/Logo web.png" alt="Logo" class="h-7 w-auto lg:h-10" />
+       <div class="flex flex-col lg:space-y-1 pt-2">
+         <img src="/public/Design.png" alt="Logo" class="h-3.5 w-auto lg:h-4" />
+        <span class="text-xs text-gray-300">Angola</span>
+       </div>
+      </div>
 
+    
       <!-- NAV DESKTOP -->
       <nav class="hidden lg:flex items-center space-x-10 text-white text-base tracking-wide">
         <RouterLink to="/" class="hover:text-amarelo transition">Home</RouterLink>
@@ -54,11 +106,19 @@ function irPara(path) {
         <RouterLink to="/projectos-servicos" class="hover:text-amarelo transition">Projetos</RouterLink>
         <RouterLink
           to="/#contactos"
-          class="bg-amarelo px-4 py-2 rounded-full hover:bg-yellow-500 text-white transition"
+          class="bg-amarelo px-4 py-2 rounded-full hover:bg-yellow-500 text-black transition"
         >
           Contactos
         </RouterLink>
       </nav>
+
+
+      <!-- Entrar Login -->
+  <div class="">
+  <button class="hover:text-amarelo lg:bg-amarelo lg:rounded-full  font-bold lg:text-black lg:px-4 lg:py-2" @click="openLogin()">Entrar</button>
+
+</div>
+
 
       <!-- BOTÃO HAMBÚRGUER -->
       <button
@@ -170,5 +230,74 @@ function irPara(path) {
       @click="menuAberto = false"
       class="fixed inset-0 bg-black bg-opacity-50 z-30 transition"
     ></div>
+
+    
   </header>
+  
+  <!-- Modal de Login (invisível por padrão, aparece sobrepondo tudo) -->
+  <div
+    v-if="showLoginModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+    @click.self="closeLogin"
+    aria-modal="true"
+    role="dialog"
+  >
+      <!-- botão de fechar -->
+      <button @click="closeLogin" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Componente de Login embutido no modal -->
+      <LoginPage @openRegister="openRegister" @closeLogin="closeLogin "/>
+  </div>
+
+
+  <!-- Modal de Cadastro -->
+
+    <div
+    v-if="showRegisterModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 "
+    @click.self="closeRegister"
+    aria-modal="true"
+    role="dialog"
+  >
+      
+      <!-- botão de fechar -->
+      <button @click="closeRegister" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Componente de Login embutido no modal -->
+      <CadastroSG 
+  @closeRegister="closeRegister" 
+  @openLogin="openLoginFromRegister" 
+  @openEmailVerification="openEmailVerification" 
+/>
+
+  </div>
+
+
+<!-- Modal de Verificação de E-maile -->
+  <div
+    v-if="showEmailVerificationModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 "
+    @click.self="closeEmailVerification"
+    aria-modal="true"
+    role="dialog"
+  >
+      
+      <!-- botão de fechar -->
+      <button @click="closeEmailVerification" class="absolute top-4 right-4 text-gray-300 hover:text-amarelo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Componente de Login embutido no modal -->
+      <VerficacaoEmail  @closeEmailVerification="closeEmailVerification"   @openLogin="openLoginFromVerification"   />
+  </div>
 </template>

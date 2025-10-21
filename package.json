@@ -11,7 +11,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist  --branch gh-pages --force",
+    "deploy": "npm run build && gh-pages -d dist",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },
