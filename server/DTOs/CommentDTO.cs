@@ -14,5 +14,7 @@
         public TimeSpan TimeAgo { get; set; }
 
         public int LikesCount { get; set; }
+
+        public bool LikedByCurrentUser { get; set; }
     }
 }

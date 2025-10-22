@@ -39,7 +39,8 @@ builder.Services.AddScoped<ICookieGenerate, CookieGenerateService>();
 
 var app = builder.Build();
 
-if(app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -54,6 +55,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/", () => "Hello World!");
+app.MapGet("/api-helth", () => "API is running...");
 
 app.MapUserAuth();
 

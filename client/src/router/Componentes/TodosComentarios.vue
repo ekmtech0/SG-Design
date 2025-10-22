@@ -40,7 +40,9 @@
             </div>
             <p class="text-gray-300 leading-relaxed">"{{  testemunho.content }}"</p>
             <div class="flex items-center space-x-4 mt-4 pt-4 border-t border-gray-700">
-              <button class="text-gray-400 hover:text-amarelo transition-colors flex items-center space-x-1 text-sm">
+              <button class="text-gray-400 hover:text-amarelo transition-colors flex items-center space-x-1 text-sm"
+                @click="likeTestemunho(testemunho.id)"
+              >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
@@ -52,13 +54,20 @@
 
         <!-- Paginação (se houver mais comentários) -->
         <div class="flex justify-center mt-8 space-x-2">
-          <button class="px-4 py-2 bg-preto2 border border-gray-700 rounded-lg text-gray-400 hover:bg-amarelo hover:text-preto transition-colors">Anterior</button>
+          <button class="px-4 py-2 bg-preto2 border border-gray-700 rounded-lg text-gray-400 hover:bg-amarelo hover:text-preto transition-colors"
+          @click="fetchTestemunhos(currentPage - 1)"
+          >Anterior</button>
           <button
             class="px-4 py-2 bg-amarelo text-preto rounded-lg font-semibold"
-            v-for="(testemunho, index) in testemunhos"
-            :key="index"
-          >{{ index + 1 }}</button>
-          <button class="px-4 py-2 bg-preto2 border border-gray-700 rounded-lg text-gray-400 hover:bg-amarelo hover:text-preto transition-colors">Próximo</button>
+            v-for="n in qtdPages"
+            :key="n"
+           @click="fetchTestemunhos(n)"
+            >{{ n }}
+        
+        </button>
+          <button class="px-4 py-2 bg-preto2 border border-gray-700 rounded-lg text-gray-400 hover:bg-amarelo hover:text-preto transition-colors"
+          @click="fetchTestemunhos(currentPage + 1)"
+          >Próximo</button>
         </div>
       </section>
       
@@ -72,7 +81,7 @@
       id="role-select"
       aria-label="Profissão"
       class="p-2 lg:p-4 rounded-xl bg-preto2 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-amarelo"
-      v-if="authStore.userData?.profission == null"
+      v-if="authStore.userData?.profission === null"
       >
       <option value="" disabled>Profissão</option>
       <option>Programador</option>
@@ -222,10 +231,17 @@ const showRegisterModal = ref(false);
 const testemunhos = ref([]);
 const showLoginModal = ref(false);
 const authStore = useAuthStore();
+const qtdPages = ref(0);
+const currentPage = ref(1);
 
-onMounted(() => {
+onMounted(async () => {
   authStore.checkAuth();
-  fetchTestemunhos();
+  if(authStore.isLogged) {
+    fetchTestemunhosAndLike(currentPage.value);
+  }
+  await fetchTestemunhos(currentPage.value);
+  qtdPages.value = await getQtdPages();
+
   // opcional: fechar modal com Esc
   window.addEventListener('keydown', onKeydown);
 });
@@ -234,9 +250,37 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown);
 });
 
-async function fetchTestemunhos() {
+async function  getQtdPages() {
   try {
-    const response = await api.get('/comments/Listar');
+    const response = await api.get('/comments/getPages');
+    console.log("Quantidade de páginas:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao obter quantidade de páginas:", error);
+    return 0;
+  }
+}
+
+//apenas busca os comentários de uma página específica
+async function fetchTestemunhos(page) {
+  currentPage.value = page;
+  try {
+    const response = await api.get(`/comments/Listar?page=${page}`);
+    testemunhos.value = response.data;
+    console.log("Testemunhos carregados:", testemunhos.value);
+  } catch (error) {
+    console.error("Erro ao buscar testemunhos:", error);
+  }
+}
+//busca os comentários e marca como true se eles foram reagidos pelo usuário logado
+async function fetchTestemunhosAndLike(page) {
+  currentPage.value = page;
+  try {
+    const response = await api.get(`/comments/GetComments?page=${page}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    });
     testemunhos.value = response.data;
     console.log("Testemunhos carregados:", testemunhos.value);
   } catch (error) {
@@ -259,7 +303,20 @@ async function SendComment() {
     console.error("Erro ao enviar comentário:", error);
   }
 }
-
+async function likeTestemunho(commentId) {
+  try {
+    await api.post(`/comments/like?commentId=${commentId}`, {}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    });
+    console.log("Comentário curtido/descurtido!");
+    // Atualiza a lista de comentários para refletir a mudança
+    await fetchTestemunhosAndLike(currentPage.value);
+  } catch (error) {
+    console.error("Erro ao curtir/descurtir comentário:", error);
+  }
+}
 
 
 function openLogin() {

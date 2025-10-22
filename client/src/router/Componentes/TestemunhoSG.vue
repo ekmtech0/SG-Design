@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import api from '@/Request';
-import WhatsApp from './WhatsApp.vue';
+import WhatsApp from './whatsApp.vue';
 import { ref, onMounted } from "vue";
 const router = useRouter() // Instancia do roteador
 const testemunhos = ref([]);
@@ -13,7 +13,7 @@ onMounted(() => {
 
 async function fetchTestemunhos() {
   try {
-    const response = await api.get('/comments/Listar');
+    const response = await api.get('/comments/Listar?page=1');
     testemunhos.value = response.data;
     console.log("Testemunhos carregados:", testemunhos.value);
   } catch (error) {
